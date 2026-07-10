@@ -10,7 +10,7 @@ Para validar el inicio de sesión y la visualización de los perfiles dinámicos
 
 | Documento (Usuario) | Contraseña | Rol / Nombre | Avatar cargado dinámicamente |
 | :--- | :--- | :--- | :--- |
-| **07079879** | `Admin123!` | Administradora (July Camila Mendoza Quispe) | Foto de perfil personalizada |
+| **07079879** | `Admin123!` | Administradora (July Camila Mendoza Quispe) | Imagen por defecto |
 | **46844596** | `User123!` | Operadora (Adriana Osorio Montes) | Imagen por defecto |
 
 ---
