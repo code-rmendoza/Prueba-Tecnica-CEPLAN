@@ -40,7 +40,7 @@ public static class DbSeeder
                 TelefonoMovil = "+51 999 888 777",
                 TipoContratacion = "Nombrado",
                 FechaContratacion = new DateOnly(2015, 3, 9),
-                AvatarUrl = "/images/avatar-july.svg"
+                AvatarUrl = "/images/avatar-default.png"
             },
             new()
             {
