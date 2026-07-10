@@ -335,8 +335,10 @@ function initSessionTimeout() {
     var logoutForm = document.getElementById('logoutForm');
     if (!logoutForm) return;
 
-    var TIMEOUT_MINUTES = 30;
-    var WARNING_SECONDS = 30;
+    // NOTA: Configurado a 1 minuto para facilitar la validación rápida y la grabación del video de prueba.
+    // (En producción, cambiar a 30 minutos y WARNING_SECONDS a 30).
+    var TIMEOUT_MINUTES = 1;
+    var WARNING_SECONDS = 15;
     var INACTIVITY_MS = TIMEOUT_MINUTES * 60 * 1000;
     var WARNING_MS = WARNING_SECONDS * 1000;
 
