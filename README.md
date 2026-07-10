@@ -17,14 +17,14 @@ Para validar el inicio de sesión y la visualización de los perfiles dinámicos
 
 ## 🛠️ Puesta en Marcha y Configuración Local
 
-Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en tu entorno de desarrollo:
+Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en tu entorno de desarrollo local:
 
 ### 1. Requisitos Previos
 *   **SDK de .NET 8.0** instalado en tu sistema.
 *   **SQL Server** (LocalDB, Express o Enterprise) en ejecución.
 
 ### 2. Configuración de la Base de Datos
-1.  Abre el archivo [appsettings.json](file:///c:/Users/Usuario/Desktop/Proyectos/Prueba-Tecnica/PruebaAspNet/appsettings.json) y actualiza la cadena de conexión (`DefaultConnection`) para que apunte a tu servidor de SQL Server local:
+1.  Abre el archivo [appsettings.json](PruebaAspNet/appsettings.json) y actualiza la cadena de conexión (`DefaultConnection`) para que apunte a tu servidor de SQL Server local:
     ```json
     "ConnectionStrings": {
       "DefaultConnection": "Server=TU_SERVIDOR_SQL;Database=PruebaAspNet;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
@@ -32,11 +32,11 @@ Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en 
     ```
     *(Nota: Reemplaza `TU_SERVIDOR_SQL` por tu nombre de servidor local, como `(localdb)\\mssqllocaldb` o `localhost\\SQLEXPRESS`).*
 
-2.  Abre tu herramienta de administración de SQL Server (como SSMS) y ejecuta el script completo de inicialización [database_script.sql](file:///c:/Users/Usuario/Desktop/Proyectos/Prueba-Tecnica/PruebaAspNet/Scripts/database_script.sql).
+2.  Abre tu herramienta de administración de SQL Server (como SSMS) y ejecuta el script completo de inicialización [database_script.sql](PruebaAspNet/Scripts/database_script.sql).
     *   Este script eliminará cualquier base de datos previa llamada `PruebaAspNet`, creará la estructura tipada correcta con tipos `DATE` e inyectará los usuarios de prueba con sus contraseñas protegidas con hashing seguro de **BCrypt (factor de costo 12)**.
 
 ### 3. Ejecutar la Aplicación
-1.  Abre una terminal en la carpeta raíz de la solución (`c:/Users/Usuario/Desktop/Proyectos/Prueba-Tecnica`).
+1.  Abre una terminal en la carpeta raíz del proyecto clonado.
 2.  Inicia la aplicación web ejecutando:
     ```bash
     dotnet run --project PruebaAspNet/PruebaAspNet.csproj
@@ -45,7 +45,7 @@ Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en 
 
 ### 4. Ejecutar la Suite de Pruebas Unitarias
 El proyecto cuenta con una suite completa de pruebas unitarias que validan la lógica de negocio y los controladores. Para ejecutarlas:
-1.  En la carpeta raíz de la solución, ejecuta:
+1.  En la carpeta raíz del proyecto, ejecuta:
     ```bash
     dotnet test
     ```
