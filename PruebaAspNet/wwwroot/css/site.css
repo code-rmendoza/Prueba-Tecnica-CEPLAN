@@ -93,12 +93,15 @@ body {
 .login-wave-pattern {
     position: fixed;
     top: 0;
-    bottom: 72px; /* Se apoya exactamente sobre el borde superior del footer */
+    bottom: 72px;
+    /* Se apoya exactamente sobre el borde superior del footer */
     left: 0;
     right: 0;
-    opacity: 0.85; /* Igualada a la opacidad de la activación para consistencia total */
+    opacity: 0.85;
+    /* Igualada a la opacidad de la activación para consistencia total */
     background: url('/images/login-landscape-no-llama.png') no-repeat center bottom;
-    background-size: 100% auto; /* Ajuste responsivo al ancho de pantalla */
+    background-size: 100% auto;
+    /* Ajuste responsivo al ancho de pantalla */
     pointer-events: none;
     z-index: 0;
 }
@@ -184,7 +187,7 @@ body {
     border-left: none;
 }
 
-.btn-check:checked + .btn-doc-type,
+.btn-check:checked+.btn-doc-type,
 .btn-doc-type.active {
     background: var(--color-text-muted);
     color: var(--color-bg-white);
@@ -196,7 +199,7 @@ body {
     color: var(--color-text-dark);
 }
 
-.btn-check:checked + .btn-doc-type:hover {
+.btn-check:checked+.btn-doc-type:hover {
     background: #636C74;
     color: white;
 }
@@ -309,7 +312,8 @@ body {
 
 /* Icono de advertencia antes del mensaje de error */
 .field-validation-error::before {
-    content: "\f339"; /* Código Unicode para bi-exclamation-circle-fill */
+    content: "\f339";
+    /* Código Unicode para bi-exclamation-circle-fill */
     font-family: "bootstrap-icons" !important;
     display: inline-block;
     margin-right: 4px;
@@ -1074,6 +1078,7 @@ body {
         opacity: 0;
         transform: translateY(12px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1304,13 +1309,16 @@ body {
 
 .activated-wave-pattern {
     position: fixed;
-    top: 56px; /* Se apoya debajo del header rojo */
-    bottom: 72px; /* Se apoya exactamente sobre el borde superior del footer */
+    top: 56px;
+    /* Se apoya debajo del header rojo */
+    bottom: 72px;
+    /* Se apoya exactamente sobre el borde superior del footer */
     left: 0;
     right: 0;
-    opacity: 0.85; /* Opacidad alta para que la silueta y los detalles de las montañas sean visibles como en Figma */
-    background: url('/images/login-landscape-no-llama.png') no-repeat center bottom;
-    background-size: 100% auto; /* Ajuste responsivo al ancho de pantalla */
+    opacity: 0.85;
+    background: url('/images/login-landscape-with-llama.png') no-repeat center bottom;
+    background-size: 100% auto;
+    /* Ajuste responsivo al ancho de pantalla */
     pointer-events: none;
     z-index: 1;
 }
@@ -1357,7 +1365,8 @@ body {
 }
 
 .btn-activated-login {
-    width: 100%; /* Ocupa el ancho completo del contenido interno de la tarjeta */
+    width: 100%;
+    /* Ocupa el ancho completo del contenido interno de la tarjeta */
     height: 44px;
     display: inline-flex;
     align-items: center;
@@ -1415,6 +1424,7 @@ body {
         opacity: 0;
         transform: translateX(100px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -1425,6 +1435,7 @@ body {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
         visibility: hidden;
