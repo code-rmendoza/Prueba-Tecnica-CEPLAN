@@ -1,0 +1,36 @@
+## .NET / VS
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## IDEs
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/
+*.nuget.props
+*.nuget.targets
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Publish / Deploy
+*.publish.xml
+publish/
+appsettings.local.json
+secrets.json

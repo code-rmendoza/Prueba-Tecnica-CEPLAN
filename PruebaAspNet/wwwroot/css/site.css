@@ -1,0 +1,1432 @@
+/* ══════════════════════════════════════════════════════════════════════
+   CEPLAN - Sistema de Gestión
+   Estilos personalizados basados en el diseño Figma
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Variables CSS (Design Tokens) ──────────────────────────────────── */
+:root {
+    /* Colores primarios */
+    --color-primary-blue: #0156AC;
+    --color-primary-blue-hover: #014A94;
+    --color-primary-blue-light: #DFEDFF;
+    --color-link-blue: #006DDB;
+
+    /* Colores institucionales */
+    --color-dark-red: #9A1413;
+    --color-red-accent: #AF0505;
+    --color-danger-red: #D20000;
+    --color-red-light: #C01722;
+
+    /* Grises */
+    --color-bg-light: #F8F8F8;
+    --color-bg-white: #FEFEFE;
+    --color-border: #C9CDD0;
+    --color-text-dark: #181A1C;
+    --color-text-secondary: #515D68;
+    --color-text-muted: #747D86;
+    --color-text-alt: #3A424A;
+    --color-text-label: #8A929A;
+    --color-field-disabled: #EDF1F4;
+
+    /* Feedbacks */
+    --color-green-bg: #E6F3ED;
+    --color-green-text: #005E35;
+    --color-yellow: #FFB10F;
+    --color-pink-active: #FAE6E6;
+
+    /* Botón login deshabilitado */
+    --color-btn-login: #92B6DB;
+    --color-btn-login-active: #0156AC;
+
+    /* Tipografías */
+    --font-primary: 'Inter', 'Segoe UI', sans-serif;
+    --font-display: 'Poppins', 'Segoe UI', sans-serif;
+    --font-footer: 'Cabin', 'Segoe UI', sans-serif;
+
+    /* Sombras (del diseño) */
+    --shadow-cards: 0px 4px 4px 0px rgba(38, 38, 38, 0.04);
+    --shadow-sidebar: 0px 10px 20px 0px rgba(38, 38, 38, 0.15);
+    --shadow-toast: 0px 3px 12px 0px rgba(38, 38, 38, 0.3);
+    --shadow-modal: 0px 2px 12px 0px rgba(38, 38, 38, 0.24);
+
+    /* Dimensiones */
+    --sidebar-width: 76px;
+    --header-height: 72px;
+    --footer-height: 72px;
+}
+
+/* ── Reset y base ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--color-text-dark);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LOGIN PAGE
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Body del login ─────────────────────────────────────────────────── */
+.login-body {
+    background: linear-gradient(135deg, var(--color-dark-red) 0%, var(--color-red-accent) 50%, #7A0F0F 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.login-wave-pattern {
+    position: fixed;
+    top: 0;
+    bottom: 72px; /* Se apoya exactamente sobre el borde superior del footer */
+    left: 0;
+    right: 0;
+    opacity: 0.85; /* Igualada a la opacidad de la activación para consistencia total */
+    background: url('/images/login-landscape-no-llama.png') no-repeat center bottom;
+    background-size: 100% auto; /* Ajuste responsivo al ancho de pantalla */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Container del login ────────────────────────────────────────────── */
+.login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 376px;
+}
+
+/* ── Logo del sistema ───────────────────────────────────────────────── */
+.login-logo-section {
+    display: flex;
+    justify-content: center;
+}
+
+.login-system-icon svg {
+    width: 77px;
+    height: 77px;
+}
+
+/* ── Card de login ──────────────────────────────────────────────────── */
+.login-card {
+    width: 100%;
+    background: var(--color-bg-white);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.login-form-section {
+    padding: 28px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ── Toggle DNI / CE ────────────────────────────────────────────────── */
+.doc-type-toggle {
+    margin-bottom: 0;
+}
+
+.doc-type-toggle .btn-group {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.btn-doc-type {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0086em;
+    text-align: center;
+    padding: 8px 16px;
+    height: 36px;
+    border: 1px solid var(--color-text-muted);
+    background: var(--color-bg-white);
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+}
+
+.btn-doc-type:first-of-type {
+    border-radius: 6px 0 0 6px;
+    border-right: none;
+}
+
+.btn-doc-type:last-of-type {
+    border-radius: 0 6px 6px 0;
+    border-left: none;
+}
+
+.btn-check:checked + .btn-doc-type,
+.btn-doc-type.active {
+    background: var(--color-text-muted);
+    color: var(--color-bg-white);
+    border-color: var(--color-text-muted);
+}
+
+.btn-doc-type:hover {
+    background: var(--color-border);
+    color: var(--color-text-dark);
+}
+
+.btn-check:checked + .btn-doc-type:hover {
+    background: #636C74;
+    color: white;
+}
+
+/* ── Campos de formulario (Login) ───────────────────────────────────── */
+.form-group-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-label-custom {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-dark);
+    margin-bottom: 0;
+}
+
+.input-group-custom {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 8px;
+    gap: 4px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group-custom:focus-within {
+    border-color: var(--color-primary-blue);
+    box-shadow: 0 0 0 2px rgba(1, 86, 172, 0.15);
+}
+
+.input-group-custom.is-invalid {
+    border-color: var(--color-danger-red);
+    box-shadow: 0 0 0 2px rgba(210, 0, 0, 0.1);
+}
+
+.input-icon-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.input-icon-left i {
+    font-size: 18px;
+}
+
+.input-icon-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.input-icon-right:hover {
+    color: var(--color-text-dark);
+}
+
+.form-control-custom {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-dark);
+    padding: 0 4px;
+    min-width: 0;
+}
+
+.form-control-custom::placeholder {
+    color: var(--color-text-muted);
+}
+
+.field-validation-custom {
+    font-family: var(--font-primary);
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--color-danger-red);
+    min-height: 0;
+}
+
+.field-validation-custom:not(:empty) {
+    margin-top: 2px;
+}
+
+/* Bordes rojos para el grupo de entrada al fallar la validación */
+.input-group-custom:has(.input-validation-error) {
+    border-color: var(--color-danger-red) !important;
+    box-shadow: 0 0 0 2px rgba(210, 0, 0, 0.1) !important;
+}
+
+/* Icono de advertencia antes del mensaje de error */
+.field-validation-error::before {
+    content: "\f339"; /* Código Unicode para bi-exclamation-circle-fill */
+    font-family: "bootstrap-icons" !important;
+    display: inline-block;
+    margin-right: 4px;
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--color-danger-red);
+    vertical-align: middle;
+}
+
+/* ── Link olvidó contraseña ─────────────────────────────────────────── */
+.forgot-password {
+    text-align: left;
+}
+
+.forgot-link {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--color-primary-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: var(--color-primary-blue-hover);
+    text-decoration: underline;
+}
+
+/* ── Botón Ingresar ─────────────────────────────────────────────────── */
+.btn-login {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 12px;
+    background: var(--color-btn-login);
+    color: var(--color-bg-white);
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.0075em;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.1s ease;
+}
+
+.btn-login:hover {
+    background: var(--color-btn-login-active);
+}
+
+.btn-login:active {
+    transform: scale(0.98);
+}
+
+.btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ── Sección de ayuda ───────────────────────────────────────────────── */
+.login-help-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 40px;
+    background: white;
+    border-radius: 8px;
+}
+
+.help-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.help-icon i {
+    font-size: 36px;
+    color: var(--color-primary-blue);
+}
+
+.help-text {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.help-text-link {
+    color: var(--color-link-blue);
+    text-decoration: none;
+}
+
+.help-text-link:hover {
+    text-decoration: underline;
+}
+
+/* ── Alert personalizado ────────────────────────────────────────────── */
+.alert-sm {
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* ── Footer institucional ───────────────────────────────────────────── */
+.login-footer {
+    background: var(--color-bg-light);
+    border-top: 1px solid var(--color-border);
+    padding: 14px 39px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-logos {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-shield {
+    width: 32px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.footer-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-institution-name {
+    font-family: var(--font-footer);
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: var(--color-bg-white);
+}
+
+.login-footer .footer-institution-name {
+    color: var(--color-text-secondary);
+}
+
+.footer-separator {
+    width: 1px;
+    height: 28px;
+    background: var(--color-border);
+}
+
+.login-footer .footer-separator {
+    background: var(--color-border);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   DASHBOARD LAYOUT
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Body del dashboard ─────────────────────────────────────────────── */
+.dashboard-body {
+    background: #EBEEF1;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+}
+
+/* ── Header principal ───────────────────────────────────────────────── */
+.dashboard-header {
+    grid-area: header;
+    background: var(--color-dark-red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-ceplan-logo {
+    height: 32px;
+    object-fit: contain;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.header-icon-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 20px;
+}
+
+.header-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.header-notification {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    background: var(--color-link-blue);
+    color: white;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 100px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.header-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+}
+
+.header-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-user-name {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: white;
+}
+
+.header-user-role {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-toggle {
+    padding: 4px;
+    text-decoration: none;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────── */
+.dashboard-sidebar {
+    grid-area: sidebar;
+    background: var(--color-bg-white);
+    box-shadow: var(--shadow-sidebar);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 24px;
+    z-index: 200;
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+}
+
+.sidebar-logo-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 20px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.sidebar-item:hover {
+    background: var(--color-bg-light);
+    color: var(--color-text-dark);
+}
+
+.sidebar-item.active {
+    background: var(--color-pink-active);
+    color: var(--color-dark-red);
+}
+
+.sidebar-item.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: var(--color-dark-red);
+    border-radius: 3px;
+}
+
+.sidebar-chevron {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 10px;
+}
+
+/* ── Main content ───────────────────────────────────────────────────── */
+.dashboard-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    height: 100%;
+}
+
+.dashboard-content-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* ── Footer del dashboard ───────────────────────────────────────────── */
+.dashboard-footer {
+    background: #FEFEFE;
+    border-top: 1px solid var(--color-border);
+    padding: 14px 39px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.dashboard-footer-logo {
+    height: 42px;
+    object-fit: contain;
+}
+
+/* ── Page Header ────────────────────────────────────────────────────── */
+.page-header {
+    background: var(--color-bg-light);
+    padding: 16px 36px;
+}
+
+.page-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.page-breadcrumbs .breadcrumb {
+    margin-bottom: 0;
+}
+
+.page-breadcrumbs .breadcrumb-item a {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--color-text-dark);
+    text-decoration: none;
+}
+
+.page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-title {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    color: var(--color-text-dark);
+    margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PROFILE PAGE
+   ══════════════════════════════════════════════════════════════════════ */
+
+.profile-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.profile-card {
+    background: var(--color-bg-white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-cards);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* ── Cabecera del perfil ────────────────────────────────────────────── */
+.profile-card-header {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.profile-info-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-avatar-large {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.profile-avatar-large svg {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.profile-name {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--color-text-dark);
+    margin: 0;
+}
+
+.badge-status {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.0333em;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.badge-active {
+    background: var(--color-green-bg);
+    color: var(--color-green-text);
+}
+
+.profile-role-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.profile-role-title {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text-secondary);
+}
+
+.profile-entity {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.profile-entity i {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+/* ── Tabs de navegación ─────────────────────────────────────────────── */
+.profile-tabs-container {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.profile-tabs {
+    position: relative;
+    padding: 0;
+}
+
+.profile-tab-nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.profile-tab {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text-label);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 16px 24px 14px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.profile-tab:hover {
+    color: var(--color-primary-blue);
+}
+
+.profile-tab.active {
+    color: var(--color-primary-blue);
+    border-bottom-color: var(--color-primary-blue);
+}
+
+/* ── Contenido de tabs ──────────────────────────────────────────────── */
+.profile-tab-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.profile-form-container {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Campos del formulario (read-only) ──────────────────────────────── */
+.form-row-custom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.form-field-readonly {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-label {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-dark);
+}
+
+.field-optional {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--color-text-muted);
+    margin-left: 4px;
+}
+
+.field-value-box {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 4px;
+    background: var(--color-bg-light);
+    border-radius: 6px;
+    min-height: 40px;
+}
+
+.field-value-box-editable {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+}
+
+.field-value-box-select {
+    justify-content: space-between;
+}
+
+.field-value-box-small {
+    flex-shrink: 0;
+}
+
+.field-value {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-alt);
+}
+
+.field-placeholder {
+    color: var(--color-text-muted);
+}
+
+.field-chevron {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+/* ── Empty tab content ──────────────────────────────────────────────── */
+.empty-tab-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    color: var(--color-text-muted);
+}
+
+.empty-tab-content i {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.empty-tab-content p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MODAL DE LOGOUT
+   ══════════════════════════════════════════════════════════════════════ */
+.modal-content {
+    border-radius: 8px;
+    box-shadow: var(--shadow-modal);
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--color-border);
+    padding: 16px 20px;
+}
+
+.modal-title {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.modal-body {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 12px 20px;
+    gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TOASTS
+   ══════════════════════════════════════════════════════════════════════ */
+.toast {
+    box-shadow: var(--shadow-toast);
+    border-radius: 8px;
+    font-family: var(--font-primary);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ANIMACIONES
+   ══════════════════════════════════════════════════════════════════════ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* ── Spinner overlay ────────────────────────────────────────────────── */
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(2px);
+}
+
+.login-overlay .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: white;
+}
+
+/* ── Sidebar overlay (mobile) ───────────────────────────────────────── */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ──────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .form-row-custom {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .profile-name {
+        font-size: 18px;
+    }
+
+    .profile-avatar-large {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* ── Mobile / Small (≤ 768px) ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .dashboard-body {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "main";
+    }
+
+    .dashboard-sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width);
+        transition: left 0.3s ease;
+    }
+
+    .dashboard-sidebar.show {
+        left: 0;
+    }
+
+    .dashboard-header {
+        padding: 10px 16px;
+    }
+
+    .form-row-custom {
+        grid-template-columns: 1fr;
+    }
+
+    .login-form-section {
+        padding: 24px 24px;
+    }
+
+    .login-help-section {
+        padding: 16px 24px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .login-footer {
+        padding: 10px 16px;
+        justify-content: center;
+    }
+
+    .page-header {
+        padding: 12px 16px;
+    }
+
+    .page-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .profile-content {
+        padding: 12px;
+    }
+
+    .profile-card-header {
+        padding: 12px 16px;
+        flex-direction: column;
+    }
+
+    .profile-info-group {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-name-row {
+        justify-content: center;
+    }
+
+    .profile-role-info {
+        justify-content: center;
+    }
+
+    .profile-tab-nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .profile-tab {
+        font-size: 14px;
+        padding: 12px 16px 10px;
+    }
+
+    .profile-form-container {
+        padding: 16px;
+    }
+
+    .dashboard-footer {
+        padding: 10px 16px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-img-placeholder {
+        display: none;
+    }
+}
+
+/* ── Extra small (≤ 480px) ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .login-content {
+        max-width: 100%;
+    }
+
+    .login-form-section {
+        padding: 20px 16px;
+    }
+
+    .login-help-section {
+        padding: 12px 16px;
+    }
+
+    .header-user-info {
+        display: none !important;
+    }
+
+    .profile-avatar-large {
+        width: 64px;
+        height: 64px;
+    }
+
+    .profile-name {
+        font-size: 16px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PANTALLA DE ACTIVACIÓN DE CUENTA (WELCOME)
+   ══════════════════════════════════════════════════════════════════════ */
+
+.activated-body {
+    background: #F8F9FA;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.activated-header {
+    background: var(--color-dark-red);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+}
+
+.activated-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.activated-wave-pattern {
+    position: fixed;
+    top: 56px; /* Se apoya debajo del header rojo */
+    bottom: 72px; /* Se apoya exactamente sobre el borde superior del footer */
+    left: 0;
+    right: 0;
+    opacity: 0.85; /* Opacidad alta para que la silueta y los detalles de las montañas sean visibles como en Figma */
+    background: url('/images/login-landscape-with-llama.png') no-repeat center bottom;
+    background-size: 100% auto; /* Ajuste responsivo al ancho de pantalla */
+    pointer-events: none;
+    z-index: 1;
+}
+
+.activated-card {
+    width: 100%;
+    max-width: 448px;
+    background: var(--color-bg-white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-cards);
+    padding: 48px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    z-index: 3;
+}
+
+.activated-rocket-container {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activated-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--color-text-dark);
+    margin: 0;
+}
+
+.activated-text {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.btn-activated-login {
+    width: 100%; /* Ocupa el ancho completo del contenido interno de la tarjeta */
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-blue);
+    color: var(--color-bg-white) !important;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.1s ease;
+    cursor: pointer;
+}
+
+.btn-activated-login:hover {
+    background: var(--color-primary-blue-hover);
+}
+
+.btn-activated-login:active {
+    transform: scale(0.98);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SESSION EXPIRED NOTIFICATION
+   ══════════════════════════════════════════════════════════════════════ */
+.session-expired-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--color-dark-red);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-toast);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease-out, fadeOutNotification 0.3s ease-in 1.7s forwards;
+    font-family: var(--font-primary);
+}
+
+.session-expired-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session-expired-content i {
+    font-size: 18px;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOutNotification {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

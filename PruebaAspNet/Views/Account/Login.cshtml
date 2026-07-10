@@ -1,0 +1,131 @@
+@model PruebaAspNet.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = "_LoginLayout";
+}
+
+<div class="login-container">
+    <div class="login-content animate-fade-in" style="@(ViewBag.IsBlocked == true ? "max-width: 448px;" : "")">
+        @if (ViewBag.IsBlocked == true)
+        {
+            <div class="login-card animate-fade-in" style="width: 100%; max-width: 448px; border-radius: 8px;">
+                <div style="padding: 48px 40px; text-align: center;">
+                    <div class="d-inline-flex align-items-center justify-content-center mb-4"
+                         style="width: 80px; height: 80px; background-color: #E8F3FF; border-radius: 50%;">
+                        <img src="/images/support-headset.svg" alt="Bloqueado" style="width: 48px; height: 48px;" />
+                    </div>
+
+                    <h2 class="mb-3" style="font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 32px; color: var(--color-text-dark);">
+                        Cuenta bloqueada temporalmente
+                    </h2>
+
+                    <p class="mb-0" style="font-family: var(--font-primary); font-weight: 400; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); max-width: 320px; margin: 0 auto;">
+                        Has excedido el número máximo de intentos fallidos (5). Por seguridad, tu cuenta ha sido bloqueada durante @(ViewBag.BlockMinutes ?? 15) minutos. Intenta nuevamente más tarde.
+                    </p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="login-card">
+                <div class="login-form-section">
+                    <div class="doc-type-toggle">
+                        <div class="btn-group w-100" role="group" aria-label="Tipo de documento">
+                            <input type="radio" class="btn-check" name="TipoDocumento" id="tipoDNI" value="DNI" checked autocomplete="off">
+                            <label class="btn btn-doc-type active" for="tipoDNI">DNI</label>
+
+                            <input type="radio" class="btn-check" name="TipoDocumento" id="tipoCE" value="CE" autocomplete="off">
+                            <label class="btn btn-doc-type" for="tipoCE">CE</label>
+                        </div>
+                    </div>
+
+                    <form asp-action="Login" asp-controller="Account" method="post" id="loginForm" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="TipoDocumento" id="tipoDocumentoHidden" value="DNI" />
+
+                        <div class="form-group-custom">
+                            <label asp-for="NombreUsuario" class="form-label-custom">Usuario</label>
+                            <div class="input-group-custom">
+                                <div class="input-icon-left" style="display: flex; align-items: center; justify-content: center;">
+                                    <img src="/images/icon-user.png" alt="User Icon" style="width: 20px; height: 20px;" />
+                                </div>
+                                <input asp-for="NombreUsuario"
+                                       class="form-control-custom"
+                                       placeholder="Ingresar usuario"
+                                       autocomplete="username"
+                                       id="inputUsuario"
+                                       value="@(TempData["LoginUsername"] ?? "")" />
+                            </div>
+                            <span asp-validation-for="NombreUsuario" class="field-validation-custom"></span>
+                        </div>
+
+                        <div class="form-group-custom">
+                            <label asp-for="Password" class="form-label-custom">Contraseña</label>
+                            <div class="input-group-custom">
+                                <div class="input-icon-left" style="display: flex; align-items: center; justify-content: center;">
+                                    <img src="/images/icon-lock.png" alt="Lock Icon" style="width: 20px; height: 20px;" />
+                                </div>
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="form-control-custom"
+                                       placeholder="Ingresar contraseña"
+                                       autocomplete="current-password"
+                                       id="inputPassword" />
+                                <button type="button" class="input-icon-right" id="togglePassword" title="Mostrar/Ocultar contraseña">
+                                    <i class="bi bi-eye" id="eyeIcon"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="field-validation-custom"></span>
+                        </div>
+
+                        <div class="forgot-password">
+                            <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
+                        </div>
+
+                        <button type="submit" class="btn-login" id="btnLogin">
+                            <span class="btn-login-text">Ingresar</span>
+                            <span class="btn-login-spinner d-none">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Ingresando...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="login-help-section w-100">
+                <div class="help-icon" style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+                    <img src="/images/support-headset.svg" alt="Support Help" style="width: 48px; height: 48px;" />
+                </div>
+                <p class="help-text">
+                    <span class="help-text-normal" style="color: #515D68;">¿Necesita ayuda?, </span>
+                    <a href="#" class="help-text-link" style="color: #006DDB; font-weight: 500;">contacte con el área de soporte</a>.
+                </p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Toast container - ÚNICO mecanismo de notificación -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+@if (TempData["LoginError"] != null)
+{
+    var errorType = TempData["ErrorType"]?.ToString() ?? "danger";
+    var toastType = errorType == "lockout" ? "danger" : (errorType == "warning" ? "warning" : "danger");
+    <div id="loginToastData"
+         data-message="@TempData["LoginError"]"
+         data-type="@toastType"
+         style="display:none;"></div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastData = document.getElementById('loginToastData');
+            if (toastData) {
+                showToast(toastData.dataset.message, toastData.dataset.type);
+            }
+        });
+    </script>
+}

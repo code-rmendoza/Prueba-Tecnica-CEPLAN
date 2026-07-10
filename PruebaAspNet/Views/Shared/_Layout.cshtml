@@ -1,0 +1,177 @@
+@using System.Security.Claims
+@{
+    Layout = null;
+    var userName = User.FindFirstValue(ClaimTypes.Name) ?? "Usuario";
+    var userRole = User.FindFirstValue(ClaimTypes.Role) ?? "Operador";
+    var avatarUrl = User.FindFirstValue("AvatarUrl") ?? "/images/avatar-default.png";
+    var userFirstName = User.FindFirstValue("Nombre") ?? "Usuario";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema de Gestión CEPLAN" />
+    <title>@ViewData["Title"] - CEPLAN</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Inter:wght@400;500;600&family=Cabin:wght@400&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="dashboard-body">
+
+    <!-- Header principal -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <!-- Logo CEPLAN -->
+            <img src="/images/logo-header-ceplan.png" alt="CEPLAN" class="header-ceplan-logo" />
+            <!-- Hamburger para mobile -->
+            <button class="btn btn-link sidebar-toggle d-lg-none ms-2" type="button" id="sidebarToggle">
+                <i class="bi bi-list text-white fs-4"></i>
+            </button>
+        </div>
+        <div class="header-right">
+            <!-- Pregunta / Ayuda -->
+            <a href="#" class="header-icon-btn text-white text-decoration-none d-flex align-items-center justify-content-center" 
+               style="font-size: 20px; font-weight: 500; font-family: var(--font-primary); width: 40px; height: 40px;" 
+               title="Soporte y Ayuda">?</a>
+
+            <!-- Notificaciones -->
+            <div class="header-notification">
+                <button class="header-icon-btn" title="Notificaciones">
+                    <i class="bi bi-bell"></i>
+                </button>
+                <span class="notification-badge">9+</span>
+            </div>
+
+            <!-- Perfil de usuario -->
+            <div class="header-profile">
+                <img src="@avatarUrl" alt="Avatar" class="header-avatar" />
+                <div class="header-user-info d-none d-md-block">
+                    <span class="header-user-name">@userFirstName</span>
+                    <span class="header-user-role">@userRole</span>
+                </div>
+            </div>
+
+            <!-- Logout -->
+            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="button" class="header-icon-btn" title="Cerrar sesión" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Sidebar compacto -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <!-- Hamburguesa azul superior en el sidebar -->
+        <div class="sidebar-toggle-btn d-flex align-items-center justify-content-center" style="height: var(--header-height); width: 100%; margin-bottom: 24px; cursor: pointer;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0056AC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- Inicio -->
+            <a href="#" class="sidebar-item" title="Inicio">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+
+            <!-- Institución -->
+            <a href="#" class="sidebar-item" title="Institución">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21V9a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v12"></path>
+                    <path d="M11 21V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v17"></path>
+                    <line x1="6" y1="12" x2="8" y2="12"></line>
+                    <line x1="6" y1="16" x2="8" y2="16"></line>
+                    <line x1="14" y1="7" x2="18" y2="7"></line>
+                    <line x1="14" y1="11" x2="18" y2="11"></line>
+                    <line x1="14" y1="15" x2="18" y2="15"></line>
+                    <line x1="1" y1="21" x2="23" y2="21"></line>
+                </svg>
+            </a>
+
+            <!-- Documento (activo) -->
+            <a href="#" class="sidebar-item active" title="Documentos">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+            </a>
+
+            <!-- Buscar -->
+            <a href="#" class="sidebar-item" title="Buscar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="dashboard-main">
+        <div class="dashboard-content-scrollable">
+            @RenderBody()
+        </div>
+
+        <!-- Footer del dashboard -->
+        <footer class="dashboard-footer">
+            <img src="/images/logo-footer-pcm.png" alt="Gobierno del Perú - PCM - CEPLAN" class="dashboard-footer-logo" />
+        </footer>
+    </main>
+
+    <!-- Modal de confirmación de Logout -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cerrar la sesión?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="confirmLogoutBtn">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Sidebar overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Custom JS -->
+    <script src="~/js/site.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

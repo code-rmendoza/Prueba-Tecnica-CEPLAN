@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaAspNet", "PruebaAspNet\PruebaAspNet.csproj", "{1F019A1B-9862-4700-9F30-8AFE2B4ABC0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaAspNet.Tests", "PruebaAspNet.Tests\PruebaAspNet.Tests.csproj", "{AE13422E-38CD-487E-9667-ADD9ADD089EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F019A1B-9862-4700-9F30-8AFE2B4ABC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F019A1B-9862-4700-9F30-8AFE2B4ABC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F019A1B-9862-4700-9F30-8AFE2B4ABC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F019A1B-9862-4700-9F30-8AFE2B4ABC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE13422E-38CD-487E-9667-ADD9ADD089EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE13422E-38CD-487E-9667-ADD9ADD089EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE13422E-38CD-487E-9667-ADD9ADD089EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE13422E-38CD-487E-9667-ADD9ADD089EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

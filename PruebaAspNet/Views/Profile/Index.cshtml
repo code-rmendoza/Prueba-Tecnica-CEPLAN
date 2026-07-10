@@ -1,0 +1,220 @@
+@model PruebaAspNet.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Perfil de Usuario";
+    Layout = "_Layout";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-content">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="page-breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="#">Perfil de usuario</a></li>
+            </ol>
+        </nav>
+
+        <!-- Título -->
+        <div class="page-title-row">
+            <h1 class="page-title">Perfil de usuario</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Contenido principal -->
+<div class="profile-content animate-fade-in">
+    <div class="profile-card">
+        <!-- Cabecera del perfil -->
+        <div class="profile-card-header">
+            <div class="profile-info-group">
+                <!-- Avatar -->
+                <div class="profile-avatar-container" style="position: relative; display: inline-block;">
+                    <img src="@Model.AvatarUrl" alt="Avatar" class="profile-avatar-large" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
+                    <span class="avatar-add-btn" style="position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background-color: #2ECC71; border-radius: 50%; border: 3px solid #FFF; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px; cursor: pointer;">+</span>
+                </div>
+
+
+                <!-- Info del usuario -->
+                <div class="profile-user-details">
+                    <div class="profile-name-row">
+                        <h2 class="profile-name">@Model.NombreCompleto</h2>
+                        <span class="badge-status badge-active">
+                            @Model.Estado
+                        </span>
+                    </div>
+                    <div class="profile-role-info">
+                        <span class="profile-role-title">@Model.Rol</span>
+                        <span class="profile-entity">
+                            <i class="bi bi-record-circle"></i>
+                            @Model.Entidad
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs de navegación -->
+        <div class="profile-tabs-container">
+            <div class="profile-tabs">
+                <div class="profile-tab-nav">
+                    <button class="profile-tab active" data-tab="informacion-basica">
+                        <span>Información básica</span>
+                    </button>
+                    <button class="profile-tab" data-tab="responsabilidades">
+                        <span>Responsabilidades</span>
+                    </button>
+                    <button class="profile-tab" data-tab="historial">
+                        <span>Historial de responsabilidades</span>
+                    </button>
+                </div>
+                <div class="tab-indicator"></div>
+            </div>
+        </div>
+
+        <!-- Contenido de Tabs -->
+        <div class="profile-tab-content">
+            <!-- Tab: Información básica -->
+            <div class="tab-pane active" id="tab-informacion-basica">
+                <div class="profile-form-container">
+                    <!-- Fila 1: Nombres, Primer Apellido, Segundo Apellido -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Nombres</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.Nombres</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">Primer Apellido</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.PrimerApellido</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">Segundo Apellido</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.SegundoApellido</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 2: Tipo Documento, N° Documento, Fecha nacimiento -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Tipo de Documento de Identidad</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.TipoDocumento</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">N° de Documento de Identidad</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.NumeroDocumento</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">Fecha de nacimiento</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.FechaNacimiento</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 3: Nacionalidad, Sexo -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Nacionalidad</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.Nacionalidad</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">Sexo</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.Sexo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 4: Correo principal, Correo secundario -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Correo electrónico principal</label>
+                            <div class="field-value-box field-value-box-select">
+                                <span class="field-value">@Model.CorreoPrincipal</span>
+                                <i class="bi bi-pencil field-chevron" style="color: #0056AC; cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">
+                                Correo electrónico secundario
+                                <span class="field-optional">(Opcional)</span>
+                            </label>
+                            <div class="field-value-box field-value-box-editable">
+                                <span class="field-value field-placeholder">@(Model.CorreoSecundario ?? "")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 5: Teléfono Móvil -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Teléfono Móvil</label>
+                            <div class="field-value-box field-value-box-select">
+                                <span class="field-value">@Model.TelefonoMovil</span>
+                                <i class="bi bi-pencil field-chevron" style="color: #0056AC; cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">
+                                Teléfono secundario
+                                <span class="field-optional">(Opcional)</span>
+                            </label>
+                            <div class="d-flex align-items-end gap-2">
+                                <div class="field-value-box field-value-box-small field-value-box-select" style="width: 89px;">
+                                    <span class="field-value field-placeholder">Tipo</span>
+                                    <i class="bi bi-chevron-down field-chevron"></i>
+                                </div>
+                                <div class="field-value-box field-value-box-editable flex-grow-1" style="background: #EDF1F4;">
+                                    <span class="field-value field-placeholder">@(Model.TelefonoSecundario ?? "")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 6: Tipo de Contratación, Fecha de contratación -->
+                    <div class="form-row-custom">
+                        <div class="form-field-readonly">
+                            <label class="field-label">Tipo de Contratación</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.TipoContratacion</span>
+                            </div>
+                        </div>
+                        <div class="form-field-readonly">
+                            <label class="field-label">Fecha de contratación</label>
+                            <div class="field-value-box">
+                                <span class="field-value">@Model.FechaContratacion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Responsabilidades -->
+            <div class="tab-pane" id="tab-responsabilidades">
+                <div class="empty-tab-content">
+                    <i class="bi bi-clipboard-check"></i>
+                    <p>Contenido de responsabilidades</p>
+                </div>
+            </div>
+
+            <!-- Tab: Historial de responsabilidades -->
+            <div class="tab-pane" id="tab-historial">
+                <div class="empty-tab-content">
+                    <i class="bi bi-clock-history"></i>
+                    <p>Historial de responsabilidades</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

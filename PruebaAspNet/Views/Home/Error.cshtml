@@ -1,0 +1,53 @@
+@model PruebaAspNet.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+    Layout = "_Layout";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="page-header-content">
+        <nav aria-label="breadcrumb" class="page-breadcrumbs">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Profile")">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Error</li>
+            </ol>
+        </nav>
+
+        <div class="page-title-row">
+            <h1 class="page-title">Ha ocurrido un error</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Contenido principal -->
+<div class="profile-content animate-fade-in">
+    <div class="profile-card">
+        <div style="padding: 48px 40px; text-align: center;">
+            <!-- Icono de error -->
+            <div class="d-inline-flex align-items-center justify-content-center mb-4" 
+                 style="width: 80px; height: 80px; background-color: #FDEAEA; border-radius: 50%;">
+                <i class="bi bi-exclamation-triangle" style="font-size: 40px; color: #D20000;"></i>
+            </div>
+
+            <h2 class="mb-3" style="font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 32px; color: var(--color-text-dark);">
+                Algo salió mal
+            </h2>
+
+            <p class="mb-4" style="font-family: var(--font-primary); font-weight: 400; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); max-width: 400px; margin: 0 auto;">
+                Ocurrió un error inesperado al procesar tu solicitud. Por favor, intenta nuevamente más tarde.
+            </p>
+
+            @if (Model?.ShowRequestId == true)
+            {
+                <div class="mb-4" style="font-family: var(--font-primary); font-size: 12px; color: var(--color-text-muted);">
+                    <strong>ID de solicitud:</strong> @Model.RequestId
+                </div>
+            }
+
+            <a href="@Url.Action("Index", "Profile")" class="btn-activated-login" style="max-width: 200px; display: inline-flex;">
+                Volver al inicio
+            </a>
+        </div>
+    </div>
+</div>

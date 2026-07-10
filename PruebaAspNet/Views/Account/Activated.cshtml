@@ -1,0 +1,27 @@
+@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Cuenta Activada";
+    var nombre = ViewData["NombreUsuario"] as string ?? "July";
+}
+
+<!-- Contenedor principal de la tarjeta -->
+<div class="activated-container">
+    <div class="activated-card animate-fade-in">
+        <!-- Ilustración del cohete con checkmark -->
+        <div class="activated-rocket-container">
+            <img src="/images/rocket-activation.png" alt="Cuenta Activada" style="width: 120px; height: 120px;" />
+        </div>
+
+        <!-- Título de bienvenida -->
+        <h1 class="activated-title">¡Bienvenida, @nombre!</h1>
+
+        <!-- Texto descriptivo -->
+        <p class="activated-text">
+            Su cuenta en el aplicativo X está activada.<br />
+            Ya puede iniciar sesión.
+        </p>
+
+        <!-- Botón de acción principal -->
+        <a href="/Account/Login" class="btn-activated-login">Iniciar sesión</a>
+    </div>
+</div>
