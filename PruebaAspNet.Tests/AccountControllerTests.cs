@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PruebaAspNet.Constants;
@@ -29,8 +30,20 @@ public class AccountControllerTests
         _mockEmail = new Mock<IEmailService>();
         _mockRepo = new Mock<IUsuarioRepository>();
         _mockLogger = new Mock<ILogger<AccountController>>();
+
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                {"Seguridad:MaxIntentosFallidos", "5"},
+                {"Seguridad:MinutosBloqueo", "15"},
+                {"Seguridad:MinutosSesion", "30"},
+                {"Seguridad:SegundosAvisoExpiracion", "30"},
+                {"Seguridad:MensajesInlineFigma", "false"}
+            })
+            .Build();
+
         _controller = new AccountController(
-            _mockAuth.Object, _mockEmail.Object, _mockRepo.Object, _mockLogger.Object);
+            _mockAuth.Object, _mockEmail.Object, _mockRepo.Object, configuration, _mockLogger.Object);
 
         // ── Configurar HttpContext mockeado ──
         var httpContext = new DefaultHttpContext();
@@ -164,5 +177,79 @@ public class AccountControllerTests
         result.Should().BeOfType<RedirectToActionResult>();
         var redirect = result as RedirectToActionResult;
         redirect!.ActionName.Should().Be("Login");
+    }
+
+    [Fact]
+    public void Activate_GET_ReturnsView()
+    {
+        var result = _controller.Activate();
+
+        result.Should().BeOfType<ViewResult>();
+        var viewResult = result as ViewResult;
+        viewResult!.Model.Should().BeOfType<ActivateViewModel>();
+    }
+
+    [Fact]
+    public async Task Activate_POST_NonExistentUser_ReturnsViewWithErrorMessage()
+    {
+        _mockRepo.Setup(r => r.GetByDocumentAsync("DNI", "12345678"))
+            .ReturnsAsync((Usuario?)null);
+
+        var result = await _controller.Activate(new ActivateViewModel
+        {
+            TipoDocumento = "DNI",
+            NumeroDocumento = "12345678"
+        });
+
+        result.Should().BeOfType<ViewResult>();
+        _controller.TempData["ActivateError"].Should().Be("El número de documento ingresado no corresponde a ninguna cuenta registrada.");
+    }
+
+    [Fact]
+    public async Task Activate_POST_ExistingUser_RedirectsToActivated()
+    {
+        var user = new Usuario { Nombre = "July", Activo = false };
+        _mockRepo.Setup(r => r.GetByDocumentAsync("DNI", "07079879"))
+            .ReturnsAsync(user);
+
+        var result = await _controller.Activate(new ActivateViewModel
+        {
+            TipoDocumento = "DNI",
+            NumeroDocumento = "07079879"
+        });
+
+        result.Should().BeOfType<RedirectToActionResult>();
+        var redirect = result as RedirectToActionResult;
+        redirect!.ActionName.Should().Be("Activated");
+        redirect.RouteValues!["nombre"].Should().Be("July");
+    }
+
+    [Fact]
+    public void ForgotPassword_GET_ReturnsView()
+    {
+        var result = _controller.ForgotPassword();
+
+        result.Should().BeOfType<ViewResult>();
+        var viewResult = result as ViewResult;
+        viewResult!.Model.Should().BeOfType<ForgotPasswordViewModel>();
+    }
+
+    [Fact]
+    public async Task ForgotPassword_POST_MatchingUserAndEmail_ReturnsForgotPasswordConfirmation()
+    {
+        var user = new Usuario { NombreUsuario = "07079879", Email = "test@minsa.gob.pe" };
+        _mockRepo.Setup(r => r.GetByDocumentAsync("DNI", "07079879"))
+            .ReturnsAsync(user);
+
+        var result = await _controller.ForgotPassword(new ForgotPasswordViewModel
+        {
+            TipoDocumento = "DNI",
+            NumeroDocumento = "07079879",
+            Email = "test@minsa.gob.pe"
+        });
+
+        result.Should().BeOfType<ViewResult>();
+        var viewResult = result as ViewResult;
+        viewResult!.ViewName.Should().Be("ForgotPasswordConfirmation");
     }
 }

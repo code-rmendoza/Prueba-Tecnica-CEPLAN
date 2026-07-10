@@ -23,6 +23,12 @@ public class UsuarioRepository : IUsuarioRepository
             .FirstOrDefaultAsync(u => u.NombreUsuario == username);
     }
 
+    public async Task<Usuario?> GetByDocumentAsync(string tipoDocumento, string numeroDocumento)
+    {
+        return await _context.Usuarios
+            .FirstOrDefaultAsync(u => u.TipoDocumento == tipoDocumento && u.NumeroDocumento == numeroDocumento);
+    }
+
     public async Task<Usuario?> GetByIdAsync(int id)
     {
         return await _context.Usuarios

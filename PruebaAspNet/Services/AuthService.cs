@@ -12,18 +12,27 @@ public class AuthService : IAuthService
 {
     private readonly IUsuarioRepository _usuarioRepository;
     private readonly IEmailService _emailService;
+    private readonly IConfiguration _configuration;
     private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IUsuarioRepository usuarioRepository, IEmailService emailService, ILogger<AuthService> logger)
+    public AuthService(
+        IUsuarioRepository usuarioRepository,
+        IEmailService emailService,
+        IConfiguration configuration,
+        ILogger<AuthService> logger)
     {
         _usuarioRepository = usuarioRepository;
         _emailService = emailService;
+        _configuration = configuration;
         _logger = logger;
     }
 
     public async Task<AuthResult> ValidateCredentialsAsync(string username, string password)
     {
         var maskedUser = MaskUsername(username);
+        var maxAttempts = _configuration.GetValue<int>("Seguridad:MaxIntentosFallidos", 5);
+        var lockoutMinutes = _configuration.GetValue<int>("Seguridad:MinutosBloqueo", 15);
+
         try
         {
             var usuario = await _usuarioRepository.GetByUsernameAsync(username);
@@ -71,15 +80,15 @@ public class AuthService : IAuthService
                 usuario.IntentosFallidos++;
                 _logger.LogWarning("Contraseña incorrecta para el usuario: {Username}. Intentos fallidos: {Attempts}", maskedUser, usuario.IntentosFallidos);
 
-                if (usuario.IntentosFallidos >= AppConstants.MaxFailedAttempts)
+                if (usuario.IntentosFallidos >= maxAttempts)
                 {
-                    var lockTime = DateTime.UtcNow.AddMinutes(AppConstants.LockoutMinutes);
+                    var lockTime = DateTime.UtcNow.AddMinutes(lockoutMinutes);
                     usuario.IntentosFallidos = 0; // Se resetea al bloquear
                     usuario.BloqueadoHasta = lockTime;
                     await _usuarioRepository.UpdateAsync(usuario);
 
                     _logger.LogWarning("Cuenta {Username} bloqueada temporalmente por {Minutes} minutos tras {Max} intentos fallidos.",
-                        maskedUser, AppConstants.LockoutMinutes, AppConstants.MaxFailedAttempts);
+                        maskedUser, lockoutMinutes, maxAttempts);
 
                     try
                     {
@@ -94,7 +103,7 @@ public class AuthService : IAuthService
                     return new AuthResult
                     {
                         ErrorType = AuthErrorType.AccountLocked,
-                        LockoutMinutesRemaining = AppConstants.LockoutMinutes
+                        LockoutMinutesRemaining = lockoutMinutes
                     };
                 }
 
@@ -103,7 +112,7 @@ public class AuthService : IAuthService
                 return new AuthResult 
                 { 
                     ErrorType = AuthErrorType.IncorrectPassword, 
-                    RemainingAttempts = AppConstants.MaxFailedAttempts - usuario.IntentosFallidos 
+                    RemainingAttempts = maxAttempts - usuario.IntentosFallidos 
                 };
             }
 

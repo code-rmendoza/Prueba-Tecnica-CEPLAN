@@ -1,10 +1,13 @@
 @using System.Security.Claims
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
     Layout = null;
     var userName = User.FindFirstValue(ClaimTypes.Name) ?? "Usuario";
     var userRole = User.FindFirstValue(ClaimTypes.Role) ?? "Operador";
     var avatarUrl = User.FindFirstValue("AvatarUrl") ?? "/images/avatar-default.png";
     var userFirstName = User.FindFirstValue("Nombre") ?? "Usuario";
+    var minutosSesion = Configuration.GetValue<int>("Seguridad:MinutosSesion", 30);
+    var segundosAviso = Configuration.GetValue<int>("Seguridad:SegundosAvisoExpiracion", 30);
 }
 
 <!DOCTYPE html>
@@ -29,7 +32,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body class="dashboard-body">
+<body class="dashboard-body" data-session-timeout="@minutosSesion" data-warning-seconds="@segundosAviso">
 
     <!-- Header principal -->
     <header class="dashboard-header">

@@ -335,12 +335,13 @@ function initSessionTimeout() {
     var logoutForm = document.getElementById('logoutForm');
     if (!logoutForm) return;
 
-    // NOTA: Configurado a 1 minuto para facilitar la validación rápida y la grabación del video de prueba.
-    // (En producción, cambiar a 30 minutos y WARNING_SECONDS a 30).
-    var TIMEOUT_MINUTES = 1;
-    var WARNING_SECONDS = 15;
-    var INACTIVITY_MS = TIMEOUT_MINUTES * 60 * 1000;
-    var WARNING_MS = WARNING_SECONDS * 1000;
+    // Leer valores dinámicos del body (inyectados desde appsettings)
+    var body = document.body;
+    var timeoutMinutes = parseFloat(body.getAttribute('data-session-timeout')) || 30;
+    var warningSeconds = parseFloat(body.getAttribute('data-warning-seconds')) || 30;
+
+    var INACTIVITY_MS = timeoutMinutes * 60 * 1000;
+    var WARNING_MS = warningSeconds * 1000;
 
     var lastActivity = Date.now();
     var warningTimer = null;
@@ -368,7 +369,7 @@ function initSessionTimeout() {
 
     function showWarning() {
         warningShown = true;
-        var remaining = WARNING_SECONDS;
+        var remaining = warningSeconds;
 
         // Crear modal de aviso de inactividad
         var modalHtml =

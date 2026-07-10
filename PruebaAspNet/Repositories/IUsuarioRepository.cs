@@ -14,6 +14,11 @@ public interface IUsuarioRepository
     Task<Usuario?> GetByUsernameAsync(string username);
 
     /// <summary>
+    /// Obtiene un usuario por su tipo y número de documento.
+    /// </summary>
+    Task<Usuario?> GetByDocumentAsync(string tipoDocumento, string numeroDocumento);
+
+    /// <summary>
     /// Obtiene un usuario por su Id.
     /// </summary>
     Task<Usuario?> GetByIdAsync(int id);

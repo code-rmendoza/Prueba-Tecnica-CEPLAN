@@ -19,9 +19,27 @@
                         Cuenta bloqueada temporalmente
                     </h2>
 
-                    <p class="mb-0" style="font-family: var(--font-primary); font-weight: 400; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); max-width: 320px; margin: 0 auto;">
-                        Has excedido el número máximo de intentos fallidos (5). Por seguridad, tu cuenta ha sido bloqueada durante @(ViewBag.BlockMinutes ?? 15) minutos. Intenta nuevamente más tarde.
+                    <p class="mb-4" style="font-family: var(--font-primary); font-weight: 400; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); max-width: 320px; margin: 0 auto;">
+                        Has excedido el número máximo de intentos fallidos. Por seguridad, tu cuenta ha sido bloqueada durante @(ViewBag.BlockMinutes ?? 15) minutos.
                     </p>
+
+                    <form asp-action="ContactSupport" asp-controller="Account" method="post" id="supportForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="Username" value="@TempData["LoginUsername"]" />
+                        <button type="submit" class="btn-login" style="background: #515D68; border-color: #515D68; height: 44px;" id="btnSupport">
+                            <span class="btn-login-text">Notificar a soporte técnico</span>
+                            <span class="btn-login-spinner d-none">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Enviando...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <a href="/Account/Login" style="color: #006DDB; font-weight: 500; text-decoration: none; font-size: 14px;">
+                            Volver a intentar
+                        </a>
+                    </div>
                 </div>
             </div>
         }
@@ -79,7 +97,7 @@
                         </div>
 
                         <div class="forgot-password">
-                            <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
+                            <a href="/Account/ForgotPassword" class="forgot-link">¿Olvidó su contraseña?</a>
                         </div>
 
                         <button type="submit" class="btn-login" id="btnLogin">
@@ -119,12 +137,38 @@
          style="display:none;"></div>
 }
 
+@if (TempData["SupportSuccess"] != null)
+{
+    <div id="supportToastData"
+         data-message="@TempData["SupportSuccess"]"
+         data-type="success"
+         style="display:none;"></div>
+}
+
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var toastData = document.getElementById('loginToastData');
             if (toastData) {
                 showToast(toastData.dataset.message, toastData.dataset.type);
+            }
+
+            var supportData = document.getElementById('supportToastData');
+            if (supportData) {
+                showToast(supportData.dataset.message, supportData.dataset.type);
+            }
+
+            // Spinner para formulario de soporte técnico
+            var supportForm = document.getElementById('supportForm');
+            var btnSupport = document.getElementById('btnSupport');
+            if (supportForm && btnSupport) {
+                supportForm.addEventListener('submit', function () {
+                    var btnText = btnSupport.querySelector('.btn-login-text');
+                    var btnSpinner = btnSupport.querySelector('.btn-login-spinner');
+                    if (btnText) btnText.classList.add('d-none');
+                    if (btnSpinner) btnSpinner.classList.remove('d-none');
+                    btnSupport.disabled = true;
+                });
             }
         });
     </script>

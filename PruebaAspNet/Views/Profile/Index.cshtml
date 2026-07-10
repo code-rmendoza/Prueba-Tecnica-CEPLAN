@@ -202,17 +202,219 @@
 
             <!-- Tab: Responsabilidades -->
             <div class="tab-pane" id="tab-responsabilidades">
-                <div class="empty-tab-content">
-                    <i class="bi bi-clipboard-check"></i>
-                    <p>Contenido de responsabilidades</p>
+                <div class="p-4">
+                    <h3 class="mb-4" style="font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--color-text-dark);">
+                        Responsabilidades Asignadas al Perfil
+                    </h3>
+                    
+                    @if (Model.Rol.Contains("Administrador"))
+                    {
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #E8F3FF; border-radius: 8px; color: #0056AC;">
+                                                <i class="bi bi-people-fill fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Gestión de Cuentas y Accesos</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Creación, edición, inhabilitación y desbloqueo temporal de cuentas de usuarios en el sistema.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #E8F3FF; border-radius: 8px; color: #0056AC;">
+                                                <i class="bi bi-shield-lock-fill fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Auditoría y Monitoreo de Seguridad</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Supervisión activa de registros de intentos de acceso, políticas de bloqueo y logs de auditoría de seguridad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #E8F3FF; border-radius: 8px; color: #0056AC;">
+                                                <i class="bi bi-sliders fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Políticas e Integración del Sistema</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Ajuste de parámetros dinámicos de sesión y factor de costo de criptografía (BCrypt).
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #E8F3FF; border-radius: 8px; color: #0056AC;">
+                                                <i class="bi bi-folder-fill fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Control de Catálogos y Entidades</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Sincronización del catálogo de unidades ejecutoras y dependencias autorizadas para el CEPLAN.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #FFF3CD; border-radius: 8px; color: #856404;">
+                                                <i class="bi bi-journal-check fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Formulación y Registro del POI</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Ingreso, edición y consolidación de metas físicas y financieras del Plan Operativo Institucional.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #FFF3CD; border-radius: 8px; color: #856404;">
+                                                <i class="bi bi-graph-up-arrow fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Seguimiento de Indicadores</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Registro periódico de ejecuciones físicas y cálculo automático de brechas y porcentajes de cumplimiento.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #FFF3CD; border-radius: 8px; color: #856404;">
+                                                <i class="bi bi-file-earmark-bar-graph-fill fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Generación de Reportes</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Exportación y consistencia de reportes institucionales para su remisión y validación por los entes supervisores.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" style="border-radius: 8px; background: #F8F9FA;">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: #FFF3CD; border-radius: 8px; color: #856404;">
+                                                <i class="bi bi-shield-check fs-5"></i>
+                                            </div>
+                                            <h4 class="card-title mb-0" style="font-size: 15px; font-weight: 600;">Validación Técnica de Datos</h4>
+                                        </div>
+                                        <p class="card-text text-muted" style="font-size: 13px; line-height: 20px;">
+                                            Monitoreo de consistencia de los datos cargados por las subunidades y formulación de reportes de observaciones.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
             <!-- Tab: Historial de responsabilidades -->
             <div class="tab-pane" id="tab-historial">
-                <div class="empty-tab-content">
-                    <i class="bi bi-clock-history"></i>
-                    <p>Historial de responsabilidades</p>
+                <div class="p-4">
+                    <h3 class="mb-4" style="font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--color-text-dark);">
+                        Historial de Acciones y Actividades Recientes
+                    </h3>
+                    
+                    <div class="table-responsive">
+                        <table class="table align-middle" style="font-family: var(--font-primary); font-size: 13px;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="font-weight: 600; color: #515D68;">Fecha y Hora</th>
+                                    <th scope="col" style="font-weight: 600; color: #515D68;">Acción / Evento</th>
+                                    <th scope="col" style="font-weight: 600; color: #515D68;">Descripción Detallada</th>
+                                    <th scope="col" style="font-weight: 600; color: #515D68;">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Rol.Contains("Administrador"))
+                                {
+                                    <tr>
+                                        <td>09/07/2026 14:22</td>
+                                        <td><strong>Desbloqueo de Cuenta</strong></td>
+                                        <td class="text-muted">Desbloqueo manual del operador DNI 46844596 tras bloqueo por fuerza bruta</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>08/07/2026 09:15</td>
+                                        <td><strong>Auditoría Semanal</strong></td>
+                                        <td class="text-muted">Revisión de logs de seguridad y reportes de inactividad de sesión</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>05/07/2026 16:40</td>
+                                        <td><strong>Configuración de Sistema</strong></td>
+                                        <td class="text-muted">Ajuste de parámetros dinámicos de sesión y factor de hash a 12</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/07/2026 11:00</td>
+                                        <td><strong>Asignación de Rol</strong></td>
+                                        <td class="text-muted">Asignación de rol "Operador" al usuario con número de DNI 46844596</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>09/07/2026 15:30</td>
+                                        <td><strong>Formulación POI 2026</strong></td>
+                                        <td class="text-muted">Registro de metas físicas correspondientes a la Unidad Ejecutora 011</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>08/07/2026 11:10</td>
+                                        <td><strong>Monitoreo de Metas</strong></td>
+                                        <td class="text-muted">Carga de avances mensuales físicos y financieros del Plan Operativo</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>06/07/2026 14:05</td>
+                                        <td><strong>Validación POI</strong></td>
+                                        <td class="text-muted">Ajuste de consistencia técnica del plan y eliminación de metas duplicadas</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>02/07/2026 09:30</td>
+                                        <td><strong>Registro de Actividades</strong></td>
+                                        <td class="text-muted">Carga mensual de actividades del plan operativo para revisión institucional</td>
+                                        <td><span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" style="font-size: 11px;">Completado</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

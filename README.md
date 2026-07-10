@@ -17,66 +17,71 @@ Para validar el inicio de sesión y la visualización de los perfiles dinámicos
 
 ## 🛠️ Puesta en Marcha y Configuración Local
 
-Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en tu entorno de desarrollo local:
+Sigue estos sencillos pasos para compilar, configurar y ejecutar el proyecto en tu entorno local. Tienes dos opciones de despliegue:
 
-### 1. Requisitos Previos
-*   **SDK de .NET 8.0** instalado en tu sistema.
-*   **SQL Server** (LocalDB, Express o Enterprise) en ejecución.
-
-### 2. Configuración de la Base de Datos
-1.  Abre el archivo [appsettings.json](PruebaAspNet/appsettings.json) y actualiza la cadena de conexión (`DefaultConnection`) para que apunte a tu servidor de SQL Server local:
-    ```json
-    "ConnectionStrings": {
-      "DefaultConnection": "Server=TU_SERVIDOR_SQL;Database=PruebaAspNet;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
-    }
+### Opción A: Despliegue Rápido (Recomendado - Docker)
+Esta opción es ideal para la evaluación ya que no requiere instalar SQL Server ni SSMS localmente.
+1.  **Levantar Base de Datos:** Abre una terminal en la raíz del proyecto y ejecuta:
+    ```bash
+    docker compose up -d
     ```
-    *(Nota: Reemplaza `TU_SERVIDOR_SQL` por tu nombre de servidor local, como `(localdb)\\mssqllocaldb` o `localhost\\SQLEXPRESS`).*
-
-2.  Abre tu herramienta de administración de SQL Server (como SSMS) y ejecuta el script completo de inicialización [database_script.sql](PruebaAspNet/Scripts/database_script.sql).
-    *   Este script eliminará cualquier base de datos previa llamada `PruebaAspNet`, creará la estructura tipada correcta con tipos `DATE` e inyectará los usuarios de prueba con sus contraseñas protegidas con hashing seguro de **BCrypt (factor de costo 12)**.
-
-### 3. Ejecutar la Aplicación
-1.  Abre una terminal en la carpeta raíz del proyecto clonado.
-2.  Inicia la aplicación web ejecutando:
+2.  **Ejecutar la Aplicación:**
     ```bash
     dotnet run --project PruebaAspNet/PruebaAspNet.csproj
     ```
-3.  Abre tu navegador e ingresa a: **`http://localhost:5000`**
+    *(Nota: Al arrancar por primera vez, Entity Framework creará la base de datos en el contenedor y sembrará los datos de prueba automáticamente).*
+3.  **Acceder:** Abre tu navegador e ingresa a: **`http://localhost:5000`**
 
-### 4. Ejecutar la Suite de Pruebas Unitarias
-El proyecto cuenta con una suite completa de pruebas unitarias que validan la lógica de negocio y los controladores. Para ejecutarlas:
-1.  En la carpeta raíz del proyecto, ejecuta:
+---
+
+### Opción B: Configuración Tradicional (Local)
+1.  **Requisitos Previos:** Tener el SDK de .NET 8.0 y una instancia activa de SQL Server.
+2.  **Configuración de Conexión:** Abre [appsettings.json](PruebaAspNet/appsettings.json) y actualiza la cadena de conexión `DefaultConnection` para que apunte a tu servidor de SQL Server local (ej. `(localdb)\\mssqllocaldb` o `localhost\\SQLEXPRESS`).
+3.  **Ejecución de Script:** Abre SSMS u otra herramienta de administración y ejecuta el script [database_script.sql](PruebaAspNet/Scripts/database_script.sql).
+4.  **Ejecutar la Aplicación:** En la raíz del proyecto, ejecuta:
     ```bash
-    dotnet test
+    dotnet run --project PruebaAspNet/PruebaAspNet.csproj
     ```
+
+---
+
+### 🧪 Suite de Pruebas Unitarias
+El proyecto cuenta con una suite de pruebas unitarias automatizadas que validan la lógica de negocio en servicios y controladores. Para ejecutarlas:
+```bash
+dotnet test
+```
 
 ---
 
 ## 🚀 Características y Decisiones Técnicas
 
-### 1. Arquitectura y Código Limpio
-*   **Separación de Responsabilidades (SRP):** La lógica de negocio relacionada con la autenticación, control de fuerza bruta y bloqueos temporales se ha encapsulado en el servicio `AuthService`, liberando al controlador `AccountController` de la lógica de negocio y dejándolo únicamente como gestor de peticiones HTTP.
-*   **Patrón Repository:** Desacoplamiento del acceso a datos mediante la interfaz `IUsuarioRepository` facilitando la mantenibilidad y la inyección de dependencias.
-*   **Base de Datos Tipada:** Se migraron los campos de fecha (`FechaNacimiento` y `FechaContratacion`) a tipos de datos temporales nativos de SQL (`DATE`) mapeados con `DateOnly?` en C#, garantizando la integridad referencial y permitiendo consultas de rango eficientes en base de datos.
-*   **DevOps ready:** Se estructuró la raíz con un archivo de solución unificado (`PruebaAspNet.sln`) para compilar y ejecutar de forma integrada.
+### 1. Parámetros de Seguridad Dinámicos
+*   **Configuración centralizada (`appsettings.json`):** Los límites de intentos de login, minutos de bloqueo y expiración de sesión se leen dinámicamente desde el archivo de configuración.
+*   **Entornos Flexibles de Prueba:** En `appsettings.Development.json` los parámetros están configurados a **2 minutos de sesión, 15 segundos de aviso y 3 intentos fallidos** para facilitar una evaluación rápida e interactiva de todos los flujos sin esperas.
+*   **Toggle de Fidelidad vs. Ciberseguridad (`MensajesInlineFigma`):** Un interruptor de configuración permite cambiar entre mensajes unificados seguros (mitigación de enumeración de usuarios) y mensajes inline diferenciados (*"Usuario incorrecto"* / *"Contraseña incorrecta"*) solicitados en el diseño de Figma.
 
-### 2. Ciberseguridad Aplicada
-*   **Mitigación de Enumeración de Usuarios:** Mensajes de error unificados ante fallos de credenciales o cuentas inexistentes. El sistema no revela si una cuenta de DNI existe o no en la base de datos.
-*   **Protección contra Fuerza Bruta (Brute-Force Protection):** Bloqueo automático por 15 minutos en base de datos tras 5 intentos fallidos consecutivos.
-*   **Rate Limiting:** Regulación de tráfico en el endpoint de login mediante directiva de Rate Limiting fija por dirección IP (máximo 10 peticiones por minuto) para mitigar ataques DoS distribuidos.
-*   **Seguridad en Logs (Enmascaramiento de PII):** Los identificadores sensibles (DNI) se registran en los logs del servidor de forma enmascarada (ej. `07***79`) cumpliendo con regulaciones de protección de datos personales.
-*   **Cookies de Sesión Seguras:** Cookies configuradas como `HttpOnly` (previene robo por XSS), `SecurePolicy.Always` (solo HTTPS) y `SameSite = Lax` (mitigación CSRF).
-*   **Integridad de Recursos Externos (SRI):** Uso de atributos `integrity` y `crossorigin` en los scripts y estilos cargados por CDN pública.
+### 2. Flujos Funcionales Completos (Figma)
+*   **Activación de Cuenta:** Formulario funcional de validación de documento contra la base de datos. Muestra un saludo dinámico y pantalla de éxito animada (*"¡Bienvenida, July!"*) si la cuenta existe.
+*   **Recuperación de Contraseña:** Formulario funcional que valida DNI/CE y Correo Electrónico. Simula el envío seguro de instrucciones a través de logs detallados del servidor.
+*   **Soporte Técnico desde Bloqueo:** Cuando la cuenta es bloqueada temporalmente, el usuario dispone de un formulario interactivo para enviar un reporte a soporte técnico con confirmación visual (Toast) y registro de tickets en logs.
 
-### 3. Funcionalidades del Cliente (JavaScript)
-*   **Timeout de Inactividad Sincronizado:** Implementación de un detector de inactividad de 30 minutos en JS que muestra una advertencia interactiva al usuario 30 segundos antes de expirar. Si el usuario no responde, realiza un logout asíncrono seguro en el backend y lo redirige al login con una alerta visual.
-*   **Interacciones Fieles a Figma:** Mostrar/ocultar contraseña, validación de inputs en tiempo real, spinner de carga en el botón de submit, y navegación entre pestañas de información.
+### 3. Experiencia de Perfil Enriquecida
+*   **Tabs Dinámicos por Rol:** Las pestañas de *Responsabilidades* e *Historial* en el perfil muestran información estructurada de acuerdo al rol del usuario autenticado (Administrador de Recursos vs. Operador), usando layouts interactivos, tarjetas de tareas y tablas de auditoría.
+
+### 4. Arquitectura y Ciberseguridad
+*   **Separación de Responsabilidades (SRP):** Encapsulación de lógica en `AuthService` y exposición limpia en `AccountController`.
+*   **Patrón Repository:** Desacoplamiento de acceso a datos mediante la interfaz `IUsuarioRepository`.
+*   **Protección contra Fuerza Bruta (Brute-Force):** Control de intentos fallidos persistido en la tabla `Usuarios` para evitar evasión reiniciando navegador.
+*   **Rate Limiting:** Regulación por IP en login (máx. 10 peticiones/min) ante ataques DoS.
+*   **Protección de Datos (Enmascaramiento):** Enmascaramiento automático de PII (ej. DNI `07***79`) en logs.
+*   **Cookies de Sesión Seguras:** Cookies HTTPOnly, SecurePolicy Always y SameSite Lax.
 
 ---
 
 ## 🛠️ Tecnologías y Herramientas Utilizadas
 *   **Backend:** ASP.NET Core 8.0 MVC / C#
-*   **Base de Datos:** SQL Server / EF Core 8.0
+*   **Base de Datos:** SQL Server 2022 / EF Core 8.0
 *   **Frontend:** Bootstrap 5.3.3, Bootstrap Icons, CSS Custom Variables, Vanilla JavaScript
 *   **Seguridad:** BCrypt.Net-Next (Work Factor 12)
 *   **Pruebas Unitarias:** xUnit, Moq, FluentAssertions
+*   **Contenedores:** Docker / Docker Compose

@@ -39,13 +39,14 @@ builder.Services.AddRateLimiter(options =>
 });
 
 // ── Cookie Authentication ──────────────────────────────────────────────
+var minutosSesion = builder.Configuration.GetValue<int>("Seguridad:MinutosSesion", 30);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(AppConstants.SessionTimeoutMinutes);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(minutosSesion);
         options.SlidingExpiration = true;
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;

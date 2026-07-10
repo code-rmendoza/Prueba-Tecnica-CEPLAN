@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PruebaAspNet.Models;
@@ -19,7 +20,19 @@ public class AuthServiceTests
         _mockRepo = new Mock<IUsuarioRepository>();
         _mockEmail = new Mock<IEmailService>();
         _mockLogger = new Mock<ILogger<AuthService>>();
-        _authService = new AuthService(_mockRepo.Object, _mockEmail.Object, _mockLogger.Object);
+        
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                {"Seguridad:MaxIntentosFallidos", "5"},
+                {"Seguridad:MinutosBloqueo", "15"},
+                {"Seguridad:MinutosSesion", "30"},
+                {"Seguridad:SegundosAvisoExpiracion", "30"},
+                {"Seguridad:MensajesInlineFigma", "false"}
+            })
+            .Build();
+
+        _authService = new AuthService(_mockRepo.Object, _mockEmail.Object, configuration, _mockLogger.Object);
     }
 
     [Fact]
