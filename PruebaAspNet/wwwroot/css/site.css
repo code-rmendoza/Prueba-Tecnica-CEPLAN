@@ -1309,7 +1309,7 @@ body {
     left: 0;
     right: 0;
     opacity: 0.85; /* Opacidad alta para que la silueta y los detalles de las montañas sean visibles como en Figma */
-    background: url('/images/login-landscape-with-llama.png') no-repeat center bottom;
+    background: url('/images/login-landscape-no-llama.png') no-repeat center bottom;
     background-size: 100% auto; /* Ajuste responsivo al ancho de pantalla */
     pointer-events: none;
     z-index: 1;
